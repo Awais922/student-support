@@ -8,29 +8,86 @@
     <style>
         body {
             background: linear-gradient(to bottom, #f0f9ff, #e0f2fe);
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
+            flex-direction: column; /* Allow content to stack vertically */
             justify-content: center;
             align-items: center;
+            padding: 20px; /* Add some padding around the content */
+            font-family: "Inter", sans-serif;
         }
         .content {
             text-align: center;
+            width: 90%; /* Make content responsive */
+            max-width: 800px; /* Limit max width for large screens */
+            background-color: #ffffff; /* Add a white background to the content area */
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08); /* More prominent shadow */
+            margin-bottom: 20px; /* Space below content before footer/next section */
         }
-        video {
-            max-width: 100%;
-            height: auto;
+        /* Styling for both video elements (local <video> and YouTube <iframe>) */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio (height / width = 9 / 16 = 0.5625) */
+            height: 0;
+            overflow: hidden;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px; /* Space between videos */
+        }
+        .video-container iframe,
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none; /* Remove iframe border */
+            border-radius: 8px; /* Apply border-radius to embedded content */
+        }
+        .video-title {
+            font-size: 1.75rem; /* text-3xl */
+            font-weight: bold;
+            color: #2b6cb0; /* text-blue-700 */
+            margin-bottom: 1.5rem; /* mb-6 */
+            margin-top: 1.5rem; /* Add some space above the title */
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 640px) {
+            .content {
+                padding: 20px;
+                width: 95%;
+            }
+            .back-button {
+                padding: 10px 18px; /* Adjust padding for smaller buttons on mobile */
+                font-size: 0.85rem; /* Slightly smaller font for mobile buttons */
+            }
+            .video-title {
+                font-size: 1.5rem; /* Adjust title size for mobile */
+            }
         }
     </style>
 </head>
 <body>
+<h1 class="text-3xl font-bold text-blue-800 mb-6">ERP Student Support Portal</h1>
+  
     <div class="content">
-        <h1 class="text-3xl font-bold text-blue-800 mb-6">ERP Ticket Guide</h1>
-        <video controls>
-            <source src="guide_video.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+      
+        <!-- Local/Repository Video Section -->
+        <h2 class="video-title">Submitt new ticket</h2>
+        <div class="video-container">
+            <iframe src="https://drive.google.com/file/d/1_6bztFnM_d1wTSO8L0rI8WDMCe6TjZHH/preview" 
+            width="640" height="480" allow="autoplay"></iframe>
+        </div>
+        <!-- YouTube Video Section -->
+        <h2 class="video-title">General overview </h2>
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/R2AtI81Rd3M?si=WSGIYQeQRhIF3U9L" 
+            title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
         <div class="mt-6">
             <a href="index.html" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300 text-sm" title="Return to homepage">Back to Homepage</a>
         </div>
