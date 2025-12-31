@@ -13,38 +13,149 @@
       justify-content: center;
       align-items: center;
       position: relative;
+      padding: 2rem 1rem; /* Adds safe padding on all sides */
+    }
+
+    .content {
+      text-align: center;
+      max-width: 28rem; /* Limits width for better readability */
+      width: 100%;
+      padding: 1.5rem 1rem;
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+      max-width: 24rem; /* Prevents buttons from stretching too wide */
+      margin: 0 auto;
+    }
+
+    .button-group a {
+      display: block;
+      width: 100%;
+      padding: 0.75rem 1.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    /* WhatsApp floating button */
+    .whatsapp-container {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1rem;
+      z-index: 50;
+    }
+
+    .whatsapp-link {
+      display: flex;
+      align-items: center;
+      background-color: #22c55e; /* Green-500 to match WhatsApp */
+      color: white;
+      padding: 0.75rem 1.25rem;
+      border-radius: 9999px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .whatsapp-link:hover {
+      background-color: #16a34a;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .whatsapp-icon {
+      width: 36px;
+      height: 36px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg') no-repeat center/cover;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    .whatsapp-text {
+      font-size: 1.1rem;
+    }
+
+    /* Mobile-specific adjustments */
+    @media (max-width: 640px) {
+      body {
+        padding: 1.5rem 1rem;
+        align-items: flex-start; /* Prevents content from being cut off */
+      }
+
+      .content {
+        padding-top: 2rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .button-group a {
+        padding: 0.875rem 1rem;
+        font-size: 1rem;
+      }
+
+      .whatsapp-container {
+        bottom: 1rem;
+        right: 1rem;
+      }
+
+      .whatsapp-link {
+        padding: 0.65rem 1rem;
+      }
+
+      .whatsapp-icon {
+        width: 32px;
+        height: 32px;
+        margin-right: 10px;
+      }
+
+      .whatsapp-text {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="content text-center max-w-lg w-full p-6">
+  <div class="content">
     <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-blue-700 mb-6">Welcome to BSCS-5G Support Portal</h1>
-    <p class="text-gray-600 mb-8">Hello! We're here to assist you. Feel free to share your concerns or suggestions with us.</p>
-    <div class="button-group flex flex-col space-y-4 w-full">
-      <a href="timetable.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-6 py-3 rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300 text-lg w-full sm:w-auto">
+    <p class="text-gray-600 mb-8 text-lg">Hello! We're here to assist you. Feel free to share your concerns or suggestions with us.</p>
+
+    <div class="button-group">
+      <a href="timetable.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300">
         Dept. Official Timetable
       </a>
-      <a href="sectiontimetable.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-6 py-3 rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300 text-lg w-full sm:w-auto">
+      <a href="sectiontimetable.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300">
         Our Section's Timetable
       </a>
-      <a href="weeklytasks.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-6 py-3 rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300 text-lg w-full sm:w-auto">
+      <a href="weeklytasks.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300">
         Weekly Tasks
       </a>
-      <a href="guide.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-6 py-3 rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300 text-lg w-full sm:w-auto">
-        ERP support portal Guide
+      <a href="guide.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300">
+        ERP Support Portal Guide
       </a>
-      <a href="form.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-6 py-3 rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300 text-lg w-full sm:w-auto">
+      <a href="form.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300">
         Submit Concern or Suggestion
       </a>
-      <a href="applicationforms.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-6 py-3 rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300 text-lg w-full sm:w-auto">
+      <a href="applicationforms.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300">
         Application Forms
+      </a>
+      <a href="calculator.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300">
+        GPA Calculator
       </a>
     </div>
   </div>
-  <a href="https://wa.me/923009423608" target="_blank"
-     class="fixed bottom-4 right-4 flex items-center bg-green-500 hover:bg-green-600 px-5 py-3 rounded-full shadow-lg z-50 transition-opacity duration-300">
-    <div class="whatsapp-icon" style="width:36px; height:36px; background:url('https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg') no-repeat center/cover; margin-right:10px;"></div>
-    <span class="whatsapp-text text-white font-semibold text-lg">Contact SVL</span>
-  </a>
+
+  <!-- WhatsApp Floating Button -->
+  <div class="whatsapp-container">
+    <a href="https://wa.me/923009423608" target="_blank" class="whatsapp-link">
+      <div class="whatsapp-icon"></div>
+      <span class="whatsapp-text">Contact SVL</span>
+    </a>
+  </div>
 </body>
 </html>

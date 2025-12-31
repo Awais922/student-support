@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University SGPA & CGPA Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1e40af;     /* Deep blue for headings */
+            --accent-color: #3b82f6;      /* Tailwind blue-500 */
+            --success-color: #10b981;     /* Emerald green for GPA */
+            --bg-gradient: linear-gradient(to bottom, #f0f9ff, #e0f2fe);
+            --card-bg: #ffffff;
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            margin: 0;
+            color: #374151;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 10px;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 680px;
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: var(--primary-color);
+            padding: 0.75rem 1.25rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            z-index: 10;
+            backdrop-filter: blur(8px);
+        }
+
+        .back-btn:hover {
+            background-color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        p.description {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .grid-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 12px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            padding: 12px 0;
+            background-color: #eff6ff;
+            border-radius: 8px;
+        }
+
+        .subject-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding: 12px;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .subject-row:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        input, select {
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: all 0.3s;
+            background-color: white;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-group {
+            margin-top: 30px;
+            display: flex;
+            gap: 12px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-calculate {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-calculate:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        .btn-clear {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .btn-clear:hover {
+            background-color: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        #result-area, #cgpa-result-area {
+            margin-top: 30px;
+            padding: 24px;
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border: 1px solid #a7f3d0;
+            border-radius: var(--border-radius);
+            text-align: center;
+            display: none;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);
+        }
+
+        .gpa-display {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: var(--success-color);
+            margin: 12px 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .stats-display {
+            font-size: 1rem;
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        /* CGPA Section */
+        #cgpa-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #d1d5db;
+        }
+
+        .cgpa-row {
+            margin-bottom: 1rem;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem;
+                margin: 10px;
+            }
+            .back-btn {
+                top: 15px;
+                left: 15px;
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+            .grid-header {
+                display: none;
+            }
+            .subject-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 16px;
+            }
+            h1 {
+                font-size: 1.7rem;
+            }
+            .gpa-display {
+                font-size: 2.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-btn">← Back to Homepage</a>
+
+    <div class="container">
+        <h1>SGPA Calculator</h1>
+        <p class="description">Calculated based on your university grading scale.</p>
+
+        <div class="grid-header">
+            <span>Subject Name</span>
+            <span>Credit Hours</span>
+            <span>Grade Obtained</span>
+        </div>
+
+        <form id="sgpaForm">
+            <div id="subject-inputs">
+                <!-- JavaScript will insert rows here -->
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn-clear" onclick="resetForm()">Clear</button>
+                <button type="button" class="btn-calculate" onclick="calculateSGPA()">Calculate SGPA</button>
+            </div>
+        </form>
+
+        <div id="result-area">
+            <div>Your Semester GPA</div>
+            <div class="gpa-display" id="final-gpa">0.00</div>
+            <div class="stats-display" id="stats-text"></div>
+        </div>
+
+        <!-- CGPA Section -->
+        <div id="cgpa-section">
+            <h1 class="mt-12">CGPA Calculator</h1>
+            <p class="description">Enter SGPAs for 5 semesters to calculate CGPA.</p>
+
+            <form id="cgpaForm">
+                <div id="sgpa-inputs">
+                    <div class="cgpa-row">
+                        <input type="number" id="sgpa1" placeholder="SGPA Semester 1" step="0.01" min="0" max="4" required>
+                    </div>
+                    <div class="cgpa-row">
+                        <input type="number" id="sgpa2" placeholder="SGPA Semester 2" step="0.01" min="0" max="4" required>
+                    </div>
+                    <div class="cgpa-row">
+                        <input type="number" id="sgpa3" placeholder="SGPA Semester 3" step="0.01" min="0" max="4" required>
+                    </div>
+                    <div class="cgpa-row">
+                        <input type="number" id="sgpa4" placeholder="SGPA Semester 4" step="0.01" min="0" max="4" required>
+                    </div>
+                    <div class="cgpa-row">
+                        <input type="number" id="sgpa5" placeholder="SGPA Semester 5" step="0.01" min="0" max="4" required>
+                    </div>
+                </div>
+
+                <div class="btn-group mt-6">
+                    <button type="button" class="btn-clear" onclick="resetCGPAForm()">Clear</button>
+                    <button type="button" class="btn-calculate" onclick="calculateCGPA()">Calculate CGPA</button>
+                </div>
+            </form>
+
+            <div id="cgpa-result-area">
+                <div>Your CGPA</div>
+                <div class="gpa-display" id="final-cgpa">0.00</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // SGPA Section (Unchanged)
+        const gradingScale = {
+            "A": 4.00,
+            "A-": 3.66,
+            "B+": 3.33,
+            "B": 3.00,
+            "B-": 2.66,
+            "C+": 2.33,
+            "C": 2.00,
+            "C-": 1.66,
+            "D+": 1.30,
+            "D": 1.00,
+            "F": 0.00
+        };
+
+        const subjectContainer = document.getElementById('subject-inputs');
+
+        function createRows() {
+            subjectContainer.innerHTML = '';
+            for (let i = 1; i <= 7; i++) {
+                const row = document.createElement('div');
+                row.className = 'subject-row';
+                
+                const nameInput = document.createElement('input');
+                nameInput.type = 'text';
+                nameInput.placeholder = `Subject ${i}`;
+                nameInput.setAttribute('aria-label', `Subject Name ${i}`);
+                
+                const creditInput = document.createElement('input');
+                creditInput.type = 'number';
+                creditInput.placeholder = 'Credits';
+                creditInput.className = 'credit-val';
+                creditInput.min = '1';
+                creditInput.max = '6';
+                creditInput.setAttribute('aria-label', `Credit Hours for Subject ${i}`);
+
+                const gradeSelect = document.createElement('select');
+                gradeSelect.className = 'grade-val';
+                gradeSelect.setAttribute('aria-label', `Grade for Subject ${i}`);
+                
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.text = 'Select Grade';
+                defaultOption.disabled = true;
+                defaultOption.selected = true;
+                gradeSelect.appendChild(defaultOption);
+
+                for (const [grade, point] of Object.entries(gradingScale)) {
+                    const option = document.createElement('option');
+                    option.value = point;
+                    option.text = grade;
+                    gradeSelect.appendChild(option);
+                }
+
+                row.appendChild(nameInput);
+                row.appendChild(creditInput);
+                row.appendChild(gradeSelect);
+                subjectContainer.appendChild(row);
+            }
+        }
+
+        function calculateSGPA() {
+            const credits = document.querySelectorAll('.credit-val');
+            const grades = document.querySelectorAll('.grade-val');
+            
+            let totalQualityPoints = 0;
+            let totalCreditHours = 0;
+            let filledSubjects = 0;
+
+            for (let i = 0; i < credits.length; i++) {
+                const credit = parseFloat(credits[i].value);
+                const gradePoint = parseFloat(grades[i].value);
+
+                if (!isNaN(credit) && credit > 0 && !isNaN(gradePoint)) {
+                    totalQualityPoints += (credit * gradePoint);
+                    totalCreditHours += credit;
+                    filledSubjects++;
+                }
+            }
+
+            const resultArea = document.getElementById('result-area');
+            
+            if (totalCreditHours > 0) {
+                const sgpa = totalQualityPoints / totalCreditHours;
+                document.getElementById('final-gpa').innerText = sgpa.toFixed(2);
+                document.getElementById('stats-text').innerText = 
+                    `Calculated from ${filledSubjects} subjects • Total Credits: ${totalCreditHours}`;
+                resultArea.style.display = 'block';
+            } else {
+                resultArea.style.display = 'none';
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('sgpaForm').reset();
+            document.getElementById('result-area').style.display = 'none';
+            createRows(); // Rebuild rows to reset selects
+        }
+
+        // CGPA Section
+        function calculateCGPA() {
+            const sgpas = [
+                parseFloat(document.getElementById('sgpa1').value),
+                parseFloat(document.getElementById('sgpa2').value),
+                parseFloat(document.getElementById('sgpa3').value),
+                parseFloat(document.getElementById('sgpa4').value),
+                parseFloat(document.getElementById('sgpa5').value)
+            ];
+
+            let totalSGPA = 0;
+            let count = 0;
+
+            sgpas.forEach(sgpa => {
+                if (!isNaN(sgpa) && sgpa >= 0 && sgpa <= 4) {
+                    totalSGPA += sgpa;
+                    count++;
+                }
+            });
+
+            const resultArea = document.getElementById('cgpa-result-area');
+
+            if (count > 0) {
+                const cgpa = totalSGPA / count;
+                document.getElementById('final-cgpa').innerText = cgpa.toFixed(2);
+                resultArea.style.display = 'block';
+            } else {
+                resultArea.style.display = 'none';
+            }
+        }
+
+        function resetCGPAForm() {
+            document.getElementById('cgpaForm').reset();
+            document.getElementById('cgpa-result-area').style.display = 'none';
+        }
+
+        // Initialize on load
+        createRows();
+    </script>
+
+</body>
+</html>
