@@ -7,9 +7,9 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #1e40af;     /* Deep blue for headings */
-            --accent-color: #3b82f6;      /* Tailwind blue-500 */
-            --success-color: #10b981;     /* Emerald green for GPA */
+            --primary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
             --bg-gradient: linear-gradient(to bottom, #f0f9ff, #e0f2fe);
             --card-bg: #ffffff;
             --border-radius: 12px;
@@ -21,9 +21,6 @@
             min-height: 100vh;
             margin: 0;
             color: #374151;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             padding: 20px 10px;
         }
 
@@ -31,30 +28,58 @@
             background-color: var(--card-bg);
             width: 100%;
             max-width: 680px;
+            margin: 0 auto 2rem auto;
             padding: 2.5rem;
             border-radius: var(--border-radius);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
         }
 
-        .back-btn {
-            position: absolute;
+        /* Back Button - Outside container, top-left of the page, static (scrolls with page) */
+        .back-button-wrapper {
+            max-width: 680px;
+            margin: 0 auto 1rem auto;
+            padding: 0 20px;
+        }
+
+        .back-button {
+            display: inline-block;
+        }
+
+        .back-button a {
+            background-color: #2563eb;
+            color: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button a:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Fixed Grading Scale Button - Locked at top-right of screen */
+        .grading-btn {
+            position: fixed;
             top: 20px;
-            left: 20px;
-            background-color: rgba(255, 255, 255, 0.9);
+            right: 20px;
+            background-color: rgb(252, 252, 251);
             color: var(--primary-color);
             padding: 0.75rem 1.25rem;
             border-radius: 9999px;
             font-weight: 600;
             font-size: 0.95rem;
-            text-decoration: none;
+            cursor: pointer;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-            z-index: 10;
+            z-index: 100;
             backdrop-filter: blur(8px);
         }
 
-        .back-btn:hover {
+        .grading-btn:hover {
             background-color: white;
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
@@ -182,15 +207,55 @@
             font-weight: 500;
         }
 
-        /* CGPA Section */
-        #cgpa-section {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid #d1d5db;
-        }
-
         .cgpa-row {
             margin-bottom: 1rem;
+        }
+
+        /* Grading Scale Modal */
+        #gradingModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            max-width: 90%;
+            max-height: 90%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 2rem;
+            color: #9ca3af;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            color: #4b5563;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         /* Mobile responsiveness */
@@ -199,9 +264,16 @@
                 padding: 1.5rem;
                 margin: 10px;
             }
-            .back-btn {
+            .back-button-wrapper {
+                padding: 0 15px;
+            }
+            .back-button a {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+            .grading-btn {
                 top: 15px;
-                left: 15px;
+                right: 15px;
                 padding: 0.6rem 1rem;
                 font-size: 0.9rem;
             }
@@ -224,8 +296,17 @@
 </head>
 <body>
 
-    <a href="index.html" class="back-btn">← Back to Homepage</a>
+    <!-- Back Button - Outside container, top-left of the page, static -->
+    <div class="back-button-wrapper">
+        <div class="back-button">
+            <a href="index.html" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300 text-sm" title="Return to homepage">Back to Homepage</a>
+        </div>
+    </div>
 
+    <!-- Fixed Grading Scale Button - Locked at top-right of screen -->
+    <button class="grading-btn" onclick="openGradingModal()">Grading Scale</button>
+
+    <!-- SGPA Calculator Container -->
     <div class="container">
         <h1>SGPA Calculator</h1>
         <p class="description">Calculated based on your university grading scale.</p>
@@ -252,46 +333,54 @@
             <div class="gpa-display" id="final-gpa">0.00</div>
             <div class="stats-display" id="stats-text"></div>
         </div>
+    </div>
 
-        <!-- CGPA Section -->
-        <div id="cgpa-section">
-            <h1 class="mt-12">CGPA Calculator</h1>
-            <p class="description">Enter SGPAs for 5 semesters to calculate CGPA.</p>
+    <!-- CGPA Calculator Container (Separate) -->
+    <div class="container">
+        <h1>CGPA Calculator</h1>
+        <p class="description">Enter SGPAs for 5 semesters to calculate overall CGPA.</p>
 
-            <form id="cgpaForm">
-                <div id="sgpa-inputs">
-                    <div class="cgpa-row">
-                        <input type="number" id="sgpa1" placeholder="SGPA Semester 1" step="0.01" min="0" max="4" required>
-                    </div>
-                    <div class="cgpa-row">
-                        <input type="number" id="sgpa2" placeholder="SGPA Semester 2" step="0.01" min="0" max="4" required>
-                    </div>
-                    <div class="cgpa-row">
-                        <input type="number" id="sgpa3" placeholder="SGPA Semester 3" step="0.01" min="0" max="4" required>
-                    </div>
-                    <div class="cgpa-row">
-                        <input type="number" id="sgpa4" placeholder="SGPA Semester 4" step="0.01" min="0" max="4" required>
-                    </div>
-                    <div class="cgpa-row">
-                        <input type="number" id="sgpa5" placeholder="SGPA Semester 5" step="0.01" min="0" max="4" required>
-                    </div>
+        <form id="cgpaForm">
+            <div id="sgpa-inputs">
+                <div class="cgpa-row">
+                    <input type="number" id="sgpa1" placeholder="SGPA Semester 1" step="0.01" min="0" max="4" required>
                 </div>
-
-                <div class="btn-group mt-6">
-                    <button type="button" class="btn-clear" onclick="resetCGPAForm()">Clear</button>
-                    <button type="button" class="btn-calculate" onclick="calculateCGPA()">Calculate CGPA</button>
+                <div class="cgpa-row">
+                    <input type="number" id="sgpa2" placeholder="SGPA Semester 2" step="0.01" min="0" max="4" required>
                 </div>
-            </form>
-
-            <div id="cgpa-result-area">
-                <div>Your CGPA</div>
-                <div class="gpa-display" id="final-cgpa">0.00</div>
+                <div class="cgpa-row">
+                    <input type="number" id="sgpa3" placeholder="SGPA Semester 3" step="0.01" min="0" max="4" required>
+                </div>
+                <div class="cgpa-row">
+                    <input type="number" id="sgpa4" placeholder="SGPA Semester 4" step="0.01" min="0" max="4" required>
+                </div>
+                <div class="cgpa-row">
+                    <input type="number" id="sgpa5" placeholder="SGPA Semester 5" step="0.01" min="0" max="4" required>
+                </div>
             </div>
+
+            <div class="btn-group mt-6">
+                <button type="button" class="btn-clear" onclick="resetCGPAForm()">Clear</button>
+                <button type="button" class="btn-calculate" onclick="calculateCGPA()">Calculate CGPA</button>
+            </div>
+        </form>
+
+        <div id="cgpa-result-area">
+            <div>Your CGPA</div>
+            <div class="gpa-display" id="final-cgpa">0.00</div>
+        </div>
+    </div>
+
+    <!-- Grading Scale Modal -->
+    <div id="gradingModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeGradingModal()">×</button>
+            <img src="grading.jpg" alt="University Grading Scale" class="modal-image">
         </div>
     </div>
 
     <script>
-        // SGPA Section (Unchanged)
+        // SGPA Logic
         const gradingScale = {
             "A": 4.00,
             "A-": 3.66,
@@ -387,10 +476,10 @@
         function resetForm() {
             document.getElementById('sgpaForm').reset();
             document.getElementById('result-area').style.display = 'none';
-            createRows(); // Rebuild rows to reset selects
+            createRows();
         }
 
-        // CGPA Section
+        // CGPA Logic
         function calculateCGPA() {
             const sgpas = [
                 parseFloat(document.getElementById('sgpa1').value),
@@ -426,7 +515,23 @@
             document.getElementById('cgpa-result-area').style.display = 'none';
         }
 
-        // Initialize on load
+        // Grading Scale Modal
+        function openGradingModal() {
+            document.getElementById('gradingModal').style.display = 'flex';
+        }
+
+        function closeGradingModal() {
+            document.getElementById('gradingModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('gradingModal');
+            if (event.target === modal) {
+                closeGradingModal();
+            }
+        }
+
+        // Initialize
         createRows();
     </script>
 

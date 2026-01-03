@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Student Support Portal | BSCS-5G</title>
+  <title>Student Support Portal | BSCS-6J</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
     body {
@@ -13,12 +13,12 @@
       justify-content: center;
       align-items: center;
       position: relative;
-      padding: 2rem 1rem; /* Adds safe padding on all sides */
+      padding: 2rem 1rem;
     }
 
     .content {
       text-align: center;
-      max-width: 28rem; /* Limits width for better readability */
+      max-width: 28rem;
       width: 100%;
       padding: 1.5rem 1rem;
     }
@@ -28,14 +28,14 @@
       flex-direction: column;
       gap: 1rem;
       width: 100%;
-      max-width: 24rem; /* Prevents buttons from stretching too wide */
+      max-width: 24rem;
       margin: 0 auto;
     }
 
     .button-group a {
       display: block;
       width: 100%;
-      padding: 0.75rem 1.5rem;
+      padding: 0.875rem 1.5rem;
       font-size: 1.1rem;
       font-weight: 600;
     }
@@ -51,7 +51,7 @@
     .whatsapp-link {
       display: flex;
       align-items: center;
-      background-color: #22c55e; /* Green-500 to match WhatsApp */
+      background-color: #22c55e;
       color: white;
       padding: 0.75rem 1.25rem;
       border-radius: 9999px;
@@ -79,24 +79,91 @@
       font-size: 1.1rem;
     }
 
+    /* Intro Popup */
+    .intro-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .popup-content {
+      background-color: white;
+      padding: 2.5rem 2rem;
+      border-radius: 1rem;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      position: relative;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      color: #9ca3af;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+
+    .close-btn:hover {
+      background-color: #f3f4f6;
+      color: #4b5563;
+    }
+
+    .popup-message {
+      font-size: 1.2rem;
+      color: #4b5563;
+      line-height: 1.7;
+      font-weight: 500;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
     /* Mobile-specific adjustments */
     @media (max-width: 640px) {
       body {
         padding: 1.5rem 1rem;
-        align-items: flex-start; /* Prevents content from being cut off */
+        align-items: flex-start;
       }
 
       .content {
-        padding-top: 2rem;
+        padding-top: 2.5rem;
       }
 
       h1 {
-        font-size: 2rem;
+        font-size: 2.2rem;
       }
 
       .button-group a {
-        padding: 0.875rem 1rem;
-        font-size: 1rem;
+        padding: 1rem 1rem;
+        font-size: 1.05rem;
       }
 
       .whatsapp-container {
@@ -117,29 +184,49 @@
       .whatsapp-text {
         font-size: 1rem;
       }
+
+      .popup-content {
+        padding: 2rem 1.5rem;
+      }
+
+      .popup-message {
+        font-size: 1.1rem;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Intro Popup (Only the welcome message) -->
+  <div id="introPopup" class="intro-popup">
+    <div class="popup-content">
+      <button class="close-btn" onclick="closePopup()" aria-label="Close popup">×</button>
+      <div class="popup-message">
+        Welcome to your dedicated student hub. I created this platform to centralize our resources, eliminate confusion, and save time.
+      </div>
+    </div>
+  </div>
+
   <div class="content">
-    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-blue-700 mb-6">Welcome to BSCS-5G Support Portal</h1>
-    <p class="text-gray-600 mb-8 text-lg">Hello! We're here to assist you. Feel free to share your concerns or suggestions with us.</p>
+    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-blue-700 mb-6">BSCS-6J Central Nexus</h1>
+    <p class="text-gray-700 mb-10 text-2xl font-bold leading-relaxed">
+      Your Voice, Your Class, Your Portal
+    </p>
 
     <div class="button-group">
-      <a href="timetable.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300">
-        Dept. Official Timetable
-      </a>
-      <a href="sectiontimetable.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300">
-        Our Section's Timetable
-      </a>
       <a href="weeklytasks.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300">
         Weekly Tasks
       </a>
-      <a href="guide.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300">
-        ERP Support Portal Guide
+      <a href="sectiontimetable.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300">
+        BSCS-6J Timetable
+      </a>
+      <a href="timetable.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300">
+        Dept. Official Timetable
       </a>
       <a href="form.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300">
         Submit Concern or Suggestion
+      </a>
+      <a href="guide.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300">
+        ERP Support Portal Guide
       </a>
       <a href="applicationforms.html" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl shadow hover:from-blue-600 hover:to-blue-400 transition duration-300">
         Application Forms
@@ -157,5 +244,24 @@
       <span class="whatsapp-text">Contact SVL</span>
     </a>
   </div>
+
+  <script>
+    function closePopup() {
+      const popup = document.getElementById('introPopup');
+      popup.style.opacity = '0';
+      popup.style.transition = 'opacity 0.5s ease';
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 500);
+    }
+
+    // Auto-hide popup after 4 seconds if not manually closed
+    setTimeout(() => {
+      const popup = document.getElementById('introPopup');
+      if (popup && popup.style.display !== 'none') {
+        closePopup();
+      }
+    }, 7000);
+  </script>
 </body>
 </html>
