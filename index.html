@@ -246,6 +246,14 @@
   </div>
 
   <script>
+    // Key for localStorage to track if popup has been shown
+    const POPUP_SHOWN_KEY = 'bscs6j_popup_shown_2026';
+
+    // Check if popup has already been shown in this browser session or previously
+    function shouldShowPopup() {
+      return !localStorage.getItem(POPUP_SHOWN_KEY);
+    }
+
     function closePopup() {
       const popup = document.getElementById('introPopup');
       popup.style.opacity = '0';
@@ -253,15 +261,24 @@
       setTimeout(() => {
         popup.style.display = 'none';
       }, 500);
+
+      // Mark popup as shown (persists across page reloads and navigation)
+      localStorage.setItem(POPUP_SHOWN_KEY, 'true');
     }
 
-    // Auto-hide popup after 4 seconds if not manually closed
-    setTimeout(() => {
-      const popup = document.getElementById('introPopup');
-      if (popup && popup.style.display !== 'none') {
-        closePopup();
-      }
-    }, 7000);
+    // Only show popup if it hasn't been shown before
+    if (shouldShowPopup()) {
+      // Auto-hide after 7 seconds if not manually closed
+      setTimeout(() => {
+        const popup = document.getElementById('introPopup');
+        if (popup && popup.style.display !== 'none') {
+          closePopup();
+        }
+      }, 7000);
+    } else {
+      // If already shown, hide popup immediately
+      document.getElementById('introPopup').style.display = 'none';
+    }
   </script>
 </body>
 </html>
